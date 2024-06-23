@@ -53,6 +53,9 @@ def validate_config(config):
     if min(random_wait_pages) < 1:
         logger.warning(u'random_wait_pages列表中的值应大于0,请重新输入')
         sys.exit()
+    if min(random_wait_pages) == max(random_wait_pages):
+        logger.warning(u'当前random_wait_pages区间长度为0,请重新输入')
+        sys.exit()
 
     # 验证random_wait_seconds
     random_wait_seconds = config['random_wait_seconds']
@@ -65,6 +68,8 @@ def validate_config(config):
         sys.exit()
     if min(random_wait_seconds) < 1:
         logger.warning(u'random_wait_seconds列表中的值应大于0,请重新输入')
+        sys.exit()
+    if min(random_wait_seconds) == max(random_wait_seconds):
         sys.exit()
 
     # 验证global_wait
@@ -107,6 +112,10 @@ def validate_config(config):
             user_id_list = os.getcwd() + os.sep + user_id_list
         if not os.path.isfile(user_id_list):
             logger.warning(u'不存在%s文件', user_id_list)
+            sys.exit()
+    else:
+        if not isinstance(user_id_list[0], int):
+            logger.warning(u'user_id_list如果使用列表，list中的值应为整数类型,请重新输入')
             sys.exit()
 
 
